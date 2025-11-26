@@ -1,12 +1,16 @@
+import dotenv from 'dotenv';
+// Load environment variables first before any other imports
+dotenv.config();
+
+// Debug: Check if API key is loaded
+console.log('🔑 API Key loaded:', process.env.ANTHROPIC_API_KEY ? 'Yes (starts with ' + process.env.ANTHROPIC_API_KEY.substring(0, 15) + '...)' : 'NO - MISSING!');
+
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { initDatabase } from './database.js';
 import ideasRouter from './routes/ideas.js';
 import scriptsRouter from './routes/scripts.js';
 import contentRouter from './routes/content.js';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;

@@ -1,8 +1,11 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+// Create client lazily to ensure env vars are loaded
+function getClient() {
+  return new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY,
+  });
+}
 
 const PLATFORM_GUIDELINES = {
   tiktok: {
@@ -46,6 +49,7 @@ Create content that is:
 
 Generate 2-3 paragraphs of compelling content based on this idea.`;
 
+  const client = getClient();
   const message = await client.messages.create({
     model: 'claude-3-5-sonnet-20241022',
     max_tokens: 1024,
@@ -88,6 +92,7 @@ Return ONLY a JSON object with this exact structure (no markdown, no code blocks
   "totalDuration": duration in seconds as integer
 }`;
 
+  const client = getClient();
   const message = await client.messages.create({
     model: 'claude-3-5-sonnet-20241022',
     max_tokens: 2048,
@@ -147,6 +152,7 @@ Return ONLY a JSON array of scenes (no markdown, no code blocks):
   }
 ]`;
 
+  const client = getClient();
   const message = await client.messages.create({
     model: 'claude-3-5-sonnet-20241022',
     max_tokens: 2048,
